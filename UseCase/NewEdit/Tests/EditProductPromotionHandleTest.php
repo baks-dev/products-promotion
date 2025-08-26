@@ -26,10 +26,10 @@ declare(strict_types=1);
 
 namespace BaksDev\Products\Promotion\UseCase\NewEdit\Tests;
 
-use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Controller\Admin\Tests\IndexControllerTest;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
 use BaksDev\Products\Promotion\Entity\ProductPromotion;
+use BaksDev\Products\Promotion\Type\ProductPromotionUid;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionHandler;
 use BaksDev\Reference\Measurement\Type\Measurements\Collection\MeasurementCollection;
@@ -64,7 +64,7 @@ final class EditProductPromotionHandleTest extends KernelTestCase
 
         /** Активное событие */
         $ProductPromotionEvent = $em->getRepository(ProductPromotionEvent::class)
-            ->findOneBy(['main' => ProductInvariableUid::TEST]);
+            ->findOneBy(['main' => ProductPromotionUid::TEST]);
 
         self::$event = $ProductPromotionEvent ?? false;
     }
@@ -87,7 +87,7 @@ final class EditProductPromotionHandleTest extends KernelTestCase
         /** Period */
         $ProductPromotionPeriodDTO = $EditProductPromotionDTO->getPeriod();
         $ProductPromotionPeriodDTO->setDateStart(new \DateTimeImmutable('+2 day'));
-        $ProductPromotionPeriodDTO->setDateEnd(new \DateTimeImmutable('+2 day'));
+        $ProductPromotionPeriodDTO->setDateEnd(new \DateTimeImmutable('+3 day'));
 
         /** @var ProductPromotionHandler $ProductPromotionHandler */
         $ProductPromotionHandler = self::getContainer()->get(ProductPromotionHandler::class);
@@ -96,11 +96,4 @@ final class EditProductPromotionHandleTest extends KernelTestCase
 
         self::assertTrue(($handle instanceof ProductPromotion), $handle.': Ошибка ProductPromotion');
     }
-
-    public static function tearDownAfterClass(): void
-    {
-        NewProductPromotionHandleTest::setUpBeforeClass();
-    }
-
-
 }

@@ -56,6 +56,7 @@ use BaksDev\Products\Product\Entity\Property\ProductProperty;
 use BaksDev\Products\Product\Entity\Trans\ProductTrans;
 use BaksDev\Products\Product\Forms\ProductFilter\Admin\ProductFilterDTO;
 use BaksDev\Products\Product\Forms\ProductFilter\Admin\Property\ProductFilterPropertyDTO;
+use BaksDev\Products\Promotion\Entity\Event\Invariable\ProductPromotionInvariable;
 use BaksDev\Products\Promotion\Entity\Event\Period\ProductPromotionPeriod;
 use BaksDev\Products\Promotion\Entity\Event\Price\ProductPromotionPrice;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
@@ -334,9 +335,20 @@ final class AllProductsWithPromotionSettingsRepository implements AllProductsWit
         $dbal
             ->leftJoin(
                 'product_invariable',
+                ProductPromotionInvariable::class,
+                'product_promotion_invariable',
+                '
+                    product_promotion_invariable.product = product_invariable.id
+                    AND
+                    product_promotion_invariable.profile = :profile',
+            );
+
+        $dbal
+            ->leftJoin(
+                'product_promotion_invariable',
                 ProductPromotion::class,
                 'product_promotion',
-                'product_promotion.id = product_invariable.id',
+                'product_promotion.id = product_promotion_invariable.main',
             );
 
         $dbal
@@ -344,10 +356,7 @@ final class AllProductsWithPromotionSettingsRepository implements AllProductsWit
                 'product_promotion',
                 ProductPromotionEvent::class,
                 'product_promotion_event',
-                '
-                    product_promotion_event.main = product_promotion.id 
-                    AND
-                    product_promotion_event.profile = :profile',
+                'product_promotion_event.main = product_promotion.id',
             );
 
         $dbal
@@ -378,10 +387,7 @@ final class AllProductsWithPromotionSettingsRepository implements AllProductsWit
                 'product_promotion_event',
                 ProductPromotionPeriod::class,
                 'product_promotion_period',
-                '
-                    product_promotion_period.event = product_promotion.event 
-                    AND 
-                    product_promotion_event.profile = :profile',
+                'product_promotion_period.event = product_promotion.event',
             );
 
         $dbal
@@ -573,14 +579,14 @@ final class AllProductsWithPromotionSettingsRepository implements AllProductsWit
         if($this->productsPromotionFilter?->getExists() === true)
         {
             $dbal->andWhere('
-                product_promotion_event.main IS NOT NULL
+                product_promotion.id IS NOT NULL
                 AND
-                product_promotion_event.profile = :profile');
+                product_promotion_invariable.profile = :profile');
         }
 
         if($this->productsPromotionFilter?->getExists() === false)
         {
-            $dbal->andWhere('product_promotion_event.main IS NULL');
+            $dbal->andWhere('product_promotion.id IS NULL');
         }
 
         $dbal->addOrderBy('product.event', 'DESC');

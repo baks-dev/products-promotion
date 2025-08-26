@@ -34,6 +34,7 @@ use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
 use BaksDev\Products\Promotion\Entity\ProductPromotion;
 use BaksDev\Products\Promotion\Repository\CurrentProductPromotionEvent\CurrentProductPromotionEventInterface;
+use BaksDev\Products\Promotion\UseCase\NewEdit\Invariable\ProductPromotionInvariableDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionForm;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionHandler;
@@ -61,16 +62,14 @@ class NewEditController extends AbstractController
             ->byInvariable($ProductInvariableUid)
             ->find();
 
-        $NewProductPromotionDTO->setMain($ProductInvariableUid);
+        $ProductPromotionInvariableDTO = new ProductPromotionInvariableDTO();
+        $ProductPromotionInvariableDTO->setProduct($ProductInvariableUid);
+
+        $NewProductPromotionDTO->setInvariable($ProductPromotionInvariableDTO);
 
         if($productPromotion instanceof ProductPromotionEvent)
         {
             $productPromotion->getDto($NewProductPromotionDTO);
-
-            if(false === $NewProductPromotionDTO->getProfile()->equals($this->getProfileUid()))
-            {
-                $NewProductPromotionDTO = new ProductPromotionDTO;
-            }
         }
 
         $form = $this

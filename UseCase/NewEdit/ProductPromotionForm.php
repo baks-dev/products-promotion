@@ -29,6 +29,7 @@ namespace BaksDev\Products\Promotion\UseCase\NewEdit;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Period\ProductPromotionPeriodForm;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Price\ProductPromotionPriceForm;
 use BaksDev\Users\Profile\UserProfile\Repository\UserProfileTokenStorage\UserProfileTokenStorageInterface;
+use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -57,9 +58,14 @@ final class ProductPromotionForm extends AbstractType
 
                 $NewProductPromotionDTO = $event->getData();
 
-                if($NewProductPromotionDTO instanceof ProductPromotionDTO)
+                /** При создании профиль не установлен */
+                if(
+                    $NewProductPromotionDTO instanceof ProductPromotionDTO
+                    &&
+                    false === ($NewProductPromotionDTO->getInvariable()->getProfile() instanceof UserProfileUid)
+                )
                 {
-                    $NewProductPromotionDTO->setProfile($this->UserProfileTokenStorage->getProfile());
+                    $NewProductPromotionDTO->getInvariable()->setProfile($this->UserProfileTokenStorage->getProfile());
                 }
             }
         );

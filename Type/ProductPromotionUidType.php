@@ -22,34 +22,19 @@
  *
  */
 
-declare(strict_types=1);
+namespace BaksDev\Products\Promotion\Type;
 
-namespace BaksDev\Products\Promotion\UseCase\NewEdit;
+use BaksDev\Core\Type\UidType\UidType;
 
-use BaksDev\Core\Entity\AbstractHandler;
-use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
-use BaksDev\Products\Promotion\Entity\ProductPromotion;
-
-final class ProductPromotionHandler extends AbstractHandler
+final class ProductPromotionUidType extends UidType
 {
-    public function handle(ProductPromotionDTO $command): ProductPromotion|string
+    public function getClassType(): string
     {
-        $this
-            ->setCommand($command)
-            ->preEventPersistOrUpdate(ProductPromotion::class, ProductPromotionEvent::class);
+        return ProductPromotionUid::class;
+    }
 
-        /** Валидация всех объектов */
-        if($this->validatorCollection->isInvalid())
-        {
-            return $this->validatorCollection->getErrorUniqid();
-        }
-
-        $this->flush();
-
-        $this->messageDispatch
-            ->addClearCacheOther('products-product')
-            ->addClearCacheOther('products-promotion');
-
-        return $this->main;
+    public function getName(): string
+    {
+        return ProductPromotionUid::TYPE;
     }
 }

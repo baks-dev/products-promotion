@@ -29,6 +29,8 @@ namespace BaksDev\Products\Promotion\UseCase\NewEdit\Tests;
 use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
 use BaksDev\Products\Promotion\Entity\ProductPromotion;
+use BaksDev\Products\Promotion\Type\ProductPromotionUid;
+use BaksDev\Products\Promotion\UseCase\NewEdit\Invariable\ProductPromotionInvariableDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Period\ProductPromotionPeriodDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Price\ProductPromotionPriceDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionDTO;
@@ -61,7 +63,7 @@ final class NewProductPromotionHandleTest extends KernelTestCase
 
         /** Корень */
         $ProductPromotion = $em->getRepository(ProductPromotion::class)
-            ->find(ProductInvariableUid::TEST);
+            ->find(ProductPromotionUid::TEST);
 
         if($ProductPromotion)
         {
@@ -70,7 +72,7 @@ final class NewProductPromotionHandleTest extends KernelTestCase
 
         /** События */
         $ProductPromotionEvents = $em->getRepository(ProductPromotionEvent::class)
-            ->findBy(['main' => ProductInvariableUid::TEST]);
+            ->findBy(['main' => ProductPromotionUid::TEST]);
 
         foreach($ProductPromotionEvents as $event)
         {
@@ -83,16 +85,20 @@ final class NewProductPromotionHandleTest extends KernelTestCase
     public function testUseCase(): void
     {
         $NewProductPromotionDTO = new ProductPromotionDTO;
-        $NewProductPromotionDTO->setMain(new ProductInvariableUid(ProductInvariableUid::TEST));
 
-        /** Profile */
-        $NewProductPromotionDTO->setProfile(new UserProfileUid(UserProfileUid::TEST));
+        /** Invariable */
+        $ProductPromotionInvariableDTO = new ProductPromotionInvariableDTO();
+        $ProductPromotionInvariableDTO
+            ->setProduct(new ProductInvariableUid(ProductInvariableUid::TEST))
+            ->setProfile(new UserProfileUid(UserProfileUid::TEST));
+
+        $NewProductPromotionDTO->setInvariable($ProductPromotionInvariableDTO);
 
         /** Price */
-        $NewProductPromotionPriceDTO = new ProductPromotionPriceDTO;
-        $NewProductPromotionPriceDTO->setValue('+100%');
+        $ProductPromotionPriceDTO = new ProductPromotionPriceDTO;
+        $ProductPromotionPriceDTO->setValue('+100%');
 
-        $NewProductPromotionDTO->setPrice($NewProductPromotionPriceDTO);
+        $NewProductPromotionDTO->setPrice($ProductPromotionPriceDTO);
 
         /** Period */
         $ProductPromotionPeriodDTO = new ProductPromotionPeriodDTO();

@@ -29,15 +29,36 @@ namespace BaksDev\Products\Promotion\Repository\CurrentProductPromotionEvent;
 use BaksDev\Core\Doctrine\ORMQueryBuilder;
 use BaksDev\Products\Product\Entity\ProductInvariable;
 use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
+use BaksDev\Products\Promotion\Entity\Event\Invariable\ProductPromotionInvariable;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
 use BaksDev\Products\Promotion\Entity\ProductPromotion;
+use BaksDev\Users\Profile\UserProfile\Entity\UserProfile;
+use BaksDev\Users\Profile\UserProfile\Repository\UserProfileTokenStorage\UserProfileTokenStorageInterface;
+use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
 final class CurrentProductPromotionEventRepository implements CurrentProductPromotionEventInterface
 {
     private ProductInvariableUid|false $invariable = false;
 
-    public function __construct(private readonly ORMQueryBuilder $ORMQueryBuilder) {}
+    private UserProfileUid|false $profile = false;
+
+    public function __construct(
+        private readonly ORMQueryBuilder $ORMQueryBuilder,
+        private readonly UserProfileTokenStorageInterface $UserProfileTokenStorage,
+    ) {}
+
+    public function byProfile(UserProfile|UserProfileUid $profile): self
+    {
+        if($profile instanceof UserProfile)
+        {
+            $profile = $profile->getId();
+        }
+
+        $this->profile = $profile;
+
+        return $this;
+    }
 
     public function byInvariable(ProductInvariable|ProductInvariableUid|string $invariable): self
     {
@@ -64,12 +85,30 @@ final class CurrentProductPromotionEventRepository implements CurrentProductProm
         $orm = $this->ORMQueryBuilder->createQueryBuilder(self::class);
 
         $orm
-            ->from(ProductPromotion::class, 'product_promotion')
-            ->where('product_promotion.id = :invariable')
+            ->from(ProductPromotion::class, 'product_promotion');
+
+        $orm
+            ->join(
+                ProductPromotionInvariable::class,
+                'promotion_invariable',
+                'WITH',
+                '
+                    promotion_invariable.main = product_promotion.id
+                    AND
+                    promotion_invariable.product = :invariable
+                    AND
+                    promotion_invariable.profile = :profile
+                    '
+            )
             ->setParameter(
                 key: 'invariable',
                 value: $this->invariable,
                 type: ProductInvariableUid::TYPE
+            )
+            ->setParameter(
+                key: 'profile',
+                value: ($this->profile instanceof UserProfileUid) ? $this->profile : $this->UserProfileTokenStorage->getProfile(),
+                type: UserProfileUid::TYPE,
             );
 
         $orm
@@ -78,7 +117,7 @@ final class CurrentProductPromotionEventRepository implements CurrentProductProm
                 ProductPromotionEvent::class,
                 'event',
                 'WITH',
-                'event.id = product_promotion.event'
+                'event.id = promotion_invariable.event'
             );
 
         return $orm->getOneOrNullResult() ?: false;

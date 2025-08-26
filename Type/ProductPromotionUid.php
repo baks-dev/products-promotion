@@ -1,17 +1,17 @@
 <?php
 /*
  *  Copyright 2025.  Baks.dev <admin@baks.dev>
- *
+ *  
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
  *  in the Software without restriction, including without limitation the rights
  *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  *  copies of the Software, and to permit persons to whom the Software is furnished
  *  to do so, subject to the following conditions:
- *
+ *  
  *  The above copyright notice and this permission notice shall be included in all
  *  copies or substantial portions of the Software.
- *
+ *  
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  *  FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,34 +22,13 @@
  *
  */
 
-declare(strict_types=1);
+namespace BaksDev\Products\Promotion\Type;
 
-namespace BaksDev\Products\Promotion\UseCase\NewEdit;
+use BaksDev\Core\Type\UidType\Uid;
 
-use BaksDev\Core\Entity\AbstractHandler;
-use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
-use BaksDev\Products\Promotion\Entity\ProductPromotion;
-
-final class ProductPromotionHandler extends AbstractHandler
+final class ProductPromotionUid extends Uid
 {
-    public function handle(ProductPromotionDTO $command): ProductPromotion|string
-    {
-        $this
-            ->setCommand($command)
-            ->preEventPersistOrUpdate(ProductPromotion::class, ProductPromotionEvent::class);
+    public const string TYPE = 'product_promotion';
 
-        /** Валидация всех объектов */
-        if($this->validatorCollection->isInvalid())
-        {
-            return $this->validatorCollection->getErrorUniqid();
-        }
-
-        $this->flush();
-
-        $this->messageDispatch
-            ->addClearCacheOther('products-product')
-            ->addClearCacheOther('products-promotion');
-
-        return $this->main;
-    }
+    public const string TEST = 'e6cd2780-9d41-75fc-8f7e-78683a981d38';
 }

@@ -26,12 +26,11 @@ declare(strict_types=1);
 
 namespace BaksDev\Products\Promotion\UseCase\NewEdit;
 
-use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEventInterface;
 use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUid;
+use BaksDev\Products\Promotion\UseCase\NewEdit\Invariable\ProductPromotionInvariableDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Period\ProductPromotionPeriodDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\Price\ProductPromotionPriceDTO;
-use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @see ProductPromotionEvent */
@@ -41,10 +40,9 @@ final class ProductPromotionDTO implements ProductPromotionEventInterface
     #[Assert\Uuid]
     private ?ProductPromotionEventUid $id = null;
 
-    /** Идентификатор профиля */
+    /** Постоянная величина продукта */
     #[Assert\NotBlank]
-    #[Assert\Uuid]
-    private UserProfileUid $profile;
+    private ProductPromotionInvariableDTO $invariable;
 
     /** Значение кастомный скидки (надбавки) */
     #[Assert\NotBlank]
@@ -54,27 +52,9 @@ final class ProductPromotionDTO implements ProductPromotionEventInterface
     #[Assert\NotBlank]
     private ProductPromotionPeriodDTO $period;
 
-    /**
-     * Уникальный продукт
-     */
-    #[Assert\NotBlank]
-    #[Assert\Uuid]
-    private ProductInvariableUid $main;
-
     public function getEvent(): ?ProductPromotionEventUid
     {
         return $this->id;
-    }
-
-    public function getProfile(): UserProfileUid
-    {
-        return $this->profile;
-    }
-
-    public function setProfile(UserProfileUid $profile): self
-    {
-        $this->profile = $profile;
-        return $this;
     }
 
     public function getPrice(): ProductPromotionPriceDTO
@@ -97,13 +77,13 @@ final class ProductPromotionDTO implements ProductPromotionEventInterface
         $this->period = $period;
     }
 
-    public function getMain(): ProductInvariableUid
+    public function getInvariable(): ProductPromotionInvariableDTO
     {
-        return $this->main;
+        return $this->invariable;
     }
 
-    public function setMain(ProductInvariableUid $main): void
+    public function setInvariable(ProductPromotionInvariableDTO $invariable): void
     {
-        $this->main = $main;
+        $this->invariable = $invariable;
     }
 }
