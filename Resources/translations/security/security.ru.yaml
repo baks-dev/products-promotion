@@ -1,0 +1,16 @@
+# Роль
+
+ROLE_PRODUCT_PROMOTION:
+  name: 'Настройки продукции'
+  desc: 'Настройки продукции'
+  header: 'Продукция'
+
+# Правила
+
+ROLE_PRODUCT_PROMOTION_INDEX:
+  name: 'Просмотр'
+  desc: ''
+
+ROLE_PRODUCT_PROMOTION_NEW_EDIT:
+  name: 'Создать или редактировать'
+  desc: ''

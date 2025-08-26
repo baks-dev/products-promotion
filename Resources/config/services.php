@@ -22,16 +22,27 @@
  *
  */
 
-declare(strict_types=1);
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-namespace BaksDev\Products\Promotion;
+use BaksDev\Products\Promotion\BaksDevProductsPromotionBundle;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+return static function(ContainerConfigurator $configurator) {
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
-{
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    $services = $configurator->services()
+        ->defaults()
+        ->autowire()
+        ->autoconfigure();
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
-}
+    $NAMESPACE = BaksDevProductsPromotionBundle::NAMESPACE;
+    $PATH = BaksDevProductsPromotionBundle::PATH;
+
+    $services
+        ->load($NAMESPACE, $PATH)
+        ->exclude([
+            $PATH.'{Entity,Resources,Type}',
+            $PATH.'**'.DIRECTORY_SEPARATOR.'*Message.php',
+            $PATH.'**'.DIRECTORY_SEPARATOR.'*Result.php',
+            $PATH.'**'.DIRECTORY_SEPARATOR.'*DTO.php',
+            $PATH.'**'.DIRECTORY_SEPARATOR.'*Test.php',
+        ]);
+};

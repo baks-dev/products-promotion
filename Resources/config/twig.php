@@ -22,16 +22,15 @@
  *
  */
 
-declare(strict_types=1);
+namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-namespace BaksDev\Products\Promotion;
+use BaksDev\Products\Promotion\BaksDevProductsPromotionBundle;
+use Symfony\Config\TwigConfig;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+return static function(TwigConfig $twig) {
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
-{
-    public const string NAMESPACE = __NAMESPACE__.'\\';
-
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
-}
+    $twig->path(
+        BaksDevProductsPromotionBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']),
+        'products-promotion'
+    );
+};

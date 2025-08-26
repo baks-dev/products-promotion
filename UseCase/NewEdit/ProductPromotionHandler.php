@@ -24,14 +24,31 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion;
+namespace BaksDev\Products\Promotion\UseCase\NewEdit;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use BaksDev\Core\Entity\AbstractHandler;
+use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
+use BaksDev\Products\Promotion\Entity\ProductPromotion;
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+final class ProductPromotionHandler extends AbstractHandler
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    public function handle(ProductPromotionDTO $command): ProductPromotion|string
+    {
+        $this
+            ->setCommand($command)
+            ->preEventPersistOrUpdate(new ProductPromotion($command->getMain()), ProductPromotionEvent::class);
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+        /** Валидация всех объектов */
+        if($this->validatorCollection->isInvalid())
+        {
+            return $this->validatorCollection->getErrorUniqid();
+        }
+
+        $this->flush();
+
+        $this->messageDispatch->addClearCacheOther('products-product');
+        $this->messageDispatch->addClearCacheOther('products-promotion');
+
+        return $this->main;
+    }
 }

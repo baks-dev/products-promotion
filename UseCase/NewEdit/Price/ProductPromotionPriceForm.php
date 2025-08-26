@@ -22,16 +22,25 @@
  *
  */
 
-declare(strict_types=1);
+namespace BaksDev\Products\Promotion\UseCase\NewEdit\Price;
 
-namespace BaksDev\Products\Promotion;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+final class ProductPromotionPriceForm extends AbstractType
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        /** Значение кастомной скидки (надбавки) */
+        $builder->add('value', TextType::class, ['required' => true]);
+    }
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => ProductPromotionPriceDTO::class,
+        ]);
+    }
 }

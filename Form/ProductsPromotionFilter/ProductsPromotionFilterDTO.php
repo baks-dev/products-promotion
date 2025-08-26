@@ -24,14 +24,26 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion;
+namespace BaksDev\Products\Promotion\Form\ProductsPromotionFilter;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+final class ProductsPromotionFilterDTO
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    /**
+     * Флаг
+     */
+    private null|bool $exists = null;
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+    /**
+     * Exists
+     */
+    public function getExists(): ?bool
+    {
+        return $this->exists;
+    }
+
+    public function setExists(?bool $exists): self
+    {
+        $this->exists = $exists;
+        return $this;
+    }
 }

@@ -1,0 +1,12 @@
+ROLE_PRODUCT_PROMOTION:
+  name: 'Products Promotion'
+  desc: 'Product Promotion'
+  header: 'Products'
+
+ROLE_PRODUCT_PROMOTION_INDEX:
+  name: 'View'
+  desc: ''
+
+ROLE_PRODUCT_PROMOTION_NEW_EDIT:
+  name: 'New or Edit'
+  desc: ''
