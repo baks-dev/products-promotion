@@ -24,32 +24,45 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion\UseCase\NewEdit;
+namespace BaksDev\Products\Promotion\UseCase\NewEdit\Invariable;
 
-use BaksDev\Core\Entity\AbstractHandler;
-use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
-use BaksDev\Products\Promotion\Entity\ProductPromotion;
+use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
+use BaksDev\Products\Promotion\Entity\Event\Invariable\ProductPromotionInvariableInterface;
+use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
+use Symfony\Component\Validator\Constraints as Assert;
 
-final class ProductPromotionHandler extends AbstractHandler
+/** @see ProductPromotionInvariable */
+final class ProductPromotionInvariableDTO implements ProductPromotionInvariableInterface
 {
-    public function handle(ProductPromotionDTO $command): ProductPromotion|string
+    /** Идентификатор профиля */
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private ?UserProfileUid $profile = null;
+
+    /** Уникальный продукт */
+    #[Assert\NotBlank]
+    #[Assert\Uuid]
+    private ProductInvariableUid $product;
+
+    public function getProfile(): ?UserProfileUid
     {
-        $this
-            ->setCommand($command)
-            ->preEventPersistOrUpdate(ProductPromotion::class, ProductPromotionEvent::class);
+        return $this->profile;
+    }
 
-        /** Валидация всех объектов */
-        if($this->validatorCollection->isInvalid())
-        {
-            return $this->validatorCollection->getErrorUniqid();
-        }
+    public function setProfile(?UserProfileUid $profile): self
+    {
+        $this->profile = $profile;
+        return $this;
+    }
 
-        $this->flush();
+    public function getProduct(): ProductInvariableUid
+    {
+        return $this->product;
+    }
 
-        $this->messageDispatch
-            ->addClearCacheOther('products-product')
-            ->addClearCacheOther('products-promotion');
-
-        return $this->main;
+    public function setProduct(ProductInvariableUid $main): self
+    {
+        $this->product = $main;
+        return $this;
     }
 }

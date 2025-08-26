@@ -26,10 +26,9 @@ declare(strict_types=1);
 
 namespace BaksDev\Products\Promotion\Entity;
 
-use BaksDev\Products\Product\Entity\ProductInvariable;
-use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
 use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUid;
+use BaksDev\Products\Promotion\Type\ProductPromotionUid;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,8 +47,8 @@ class ProductPromotion
     #[Assert\NotBlank]
     #[Assert\Uuid]
     #[ORM\Id]
-    #[ORM\Column(type: ProductInvariableUid::TYPE)]
-    private ProductInvariableUid $id;
+    #[ORM\Column(type: ProductPromotionUid::TYPE)]
+    private ProductPromotionUid $id;
 
     /** ID События  */
     #[Assert\NotBlank]
@@ -57,9 +56,9 @@ class ProductPromotion
     #[ORM\Column(type: ProductPromotionEventUid::TYPE)]
     private ProductPromotionEventUid $event;
 
-    public function __construct(ProductInvariable|ProductInvariableUid $invariable)
+    public function __construct()
     {
-        $this->id = $invariable instanceof ProductInvariable ? $invariable->getId() : $invariable;
+        $this->id = new ProductPromotionUid();
     }
 
     public function __toString(): string
@@ -67,7 +66,7 @@ class ProductPromotion
         return (string) $this->id;
     }
 
-    public function getId(): ProductInvariableUid
+    public function getId(): ProductPromotionUid
     {
         return $this->id;
     }

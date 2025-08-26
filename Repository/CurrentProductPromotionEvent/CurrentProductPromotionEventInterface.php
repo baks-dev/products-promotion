@@ -29,9 +29,13 @@ namespace BaksDev\Products\Promotion\Repository\CurrentProductPromotionEvent;
 use BaksDev\Products\Product\Entity\ProductInvariable;
 use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
 use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
+use BaksDev\Users\Profile\UserProfile\Entity\UserProfile;
+use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
 
 interface CurrentProductPromotionEventInterface
 {
+    public function byProfile(UserProfile|UserProfileUid $profile): self;
+
     public function byInvariable(ProductInvariable|ProductInvariableUid|string $invariable): self;
 
     /**

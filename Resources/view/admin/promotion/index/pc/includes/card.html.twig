@@ -79,10 +79,15 @@
     </td>
 
     <td class="text-center">
-        <span class="small">базовая цена: {{ money(item.productPrice) }}</span>
+        {% if item.productPrice %}
+            <span class="small">базовая цена: {{ money(item.productPrice) }}</span>
+        {% else %}
+            <span class="badge text-bg-danger mt-1">Цена не указана</span>
+        {% endif %}
+
         {% if item.promotionValue != null and item.promotionActive %}
             <br>
-            <span class="small">кастомная цена: {{ money(item.productPrice.applyString(item.promotionValue)) }}</span>
+            <span class="small">акционная цена: {{ money(item.productPrice.applyString(item.promotionValue)) }}</span>
         {% endif %}
     </td>
 

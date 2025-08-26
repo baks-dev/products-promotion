@@ -27,11 +27,14 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 use BaksDev\Products\Promotion\BaksDevProductsPromotionBundle;
 use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUid;
 use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUidType;
+use BaksDev\Products\Promotion\Type\ProductPromotionUid;
+use BaksDev\Products\Promotion\Type\ProductPromotionUidType;
 use Symfony\Config\DoctrineConfig;
 
 return static function(ContainerConfigurator $container, DoctrineConfig $doctrine) {
 
     $doctrine->dbal()->type(ProductPromotionEventUid::TYPE)->class(ProductPromotionEventUidType::class);
+    $doctrine->dbal()->type(ProductPromotionUid::TYPE)->class(ProductPromotionUidType::class);
 
     $services = $container->services()
         ->defaults()
@@ -39,6 +42,7 @@ return static function(ContainerConfigurator $container, DoctrineConfig $doctrin
         ->autoconfigure();
 
     $services->set(ProductPromotionEventUid::class)->class(ProductPromotionEventUid::class);
+    $services->set(ProductPromotionUid::class)->class(ProductPromotionUid::class);
 
     $emDefault = $doctrine->orm()->entityManager('default')->autoMapping(true);
 

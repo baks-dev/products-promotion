@@ -69,8 +69,8 @@ final readonly class AllProductsWithPromotionSettingsResult
         private ?string $product_image_ext,
         private ?bool $product_image_cdn,
 
-        private string|int|null $product_price,
-        private string|int|null $promotion_value,
+        private ?int $product_price,
+        private ?string $promotion_value,
 
         private bool $promotion_active,
         private ?string $promotion_start,
@@ -94,7 +94,7 @@ final readonly class AllProductsWithPromotionSettingsResult
 
     public function isCategoryActive(): bool
     {
-        return $this->category_active;
+        return true === $this->category_active;
     }
 
     public function getCategoryName(): string
@@ -204,7 +204,7 @@ final readonly class AllProductsWithPromotionSettingsResult
 
     public function isPromotionActive(): bool
     {
-        return $this->promotion_active;
+        return true === $this->promotion_active;
     }
 
     public function getPromotionStart(): ?DateTimeImmutable

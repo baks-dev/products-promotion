@@ -27,12 +27,13 @@ declare(strict_types=1);
 namespace BaksDev\Products\Promotion\Entity\Event;
 
 use BaksDev\Core\Entity\EntityEvent;
-use BaksDev\Products\Product\Type\Invariable\ProductInvariableUid;
+use BaksDev\Products\Promotion\Entity\Event\Invariable\ProductPromotionInvariable;
+use BaksDev\Products\Promotion\Entity\Event\Modify\ProductPromotionModify;
 use BaksDev\Products\Promotion\Entity\Event\Period\ProductPromotionPeriod;
 use BaksDev\Products\Promotion\Entity\Event\Price\ProductPromotionPrice;
 use BaksDev\Products\Promotion\Entity\ProductPromotion;
 use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUid;
-use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
+use BaksDev\Products\Promotion\Type\ProductPromotionUid;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,14 +53,12 @@ class ProductPromotionEvent extends EntityEvent
     /** ID Корня */
     #[Assert\NotBlank]
     #[Assert\Uuid]
-    #[ORM\Column(type: ProductInvariableUid::TYPE, nullable: false)]
-    private ?ProductInvariableUid $main = null;
+    #[ORM\Column(type: ProductPromotionUid::TYPE, nullable: false)]
+    private ProductPromotionUid $main;
 
-    /** Идентификатор профиля */
-    #[Assert\NotBlank]
-    #[Assert\Uuid]
-    #[ORM\Column(type: UserProfileUid::TYPE)]
-    private UserProfileUid $profile;
+    /** Постоянная величина продукта */
+    #[ORM\OneToOne(targetEntity: ProductPromotionInvariable::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
+    private ?ProductPromotionInvariable $invariable = null;
 
     /** Значение кастомной скидки (надбавки) */
     #[ORM\OneToOne(targetEntity: ProductPromotionPrice::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
@@ -68,6 +67,10 @@ class ProductPromotionEvent extends EntityEvent
     /** Период действия кастомной скидки (надбавки) */
     #[ORM\OneToOne(targetEntity: ProductPromotionPeriod::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
     private ProductPromotionPeriod $period;
+
+    /** Модификатор */
+    #[ORM\OneToOne(targetEntity: ProductPromotionModify::class, mappedBy: 'event', cascade: ['all'], fetch: 'EAGER')]
+    private ProductPromotionModify $modify;
 
     public function __construct()
     {
@@ -111,12 +114,12 @@ class ProductPromotionEvent extends EntityEvent
         return $this->id;
     }
 
-    public function getMain(): ?ProductInvariableUid
+    public function getMain(): ?ProductPromotionUid
     {
         return $this->main;
     }
 
-    public function setMain(ProductPromotion|ProductInvariableUid $main): void
+    public function setMain(ProductPromotion|ProductPromotionUid $main): void
     {
         $this->main = $main instanceof ProductPromotion ? $main->getId() : $main;
     }

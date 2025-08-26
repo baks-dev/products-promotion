@@ -24,32 +24,6 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion\UseCase\NewEdit;
+namespace BaksDev\Products\Promotion\Entity\Event\Invariable;
 
-use BaksDev\Core\Entity\AbstractHandler;
-use BaksDev\Products\Promotion\Entity\Event\ProductPromotionEvent;
-use BaksDev\Products\Promotion\Entity\ProductPromotion;
-
-final class ProductPromotionHandler extends AbstractHandler
-{
-    public function handle(ProductPromotionDTO $command): ProductPromotion|string
-    {
-        $this
-            ->setCommand($command)
-            ->preEventPersistOrUpdate(ProductPromotion::class, ProductPromotionEvent::class);
-
-        /** Валидация всех объектов */
-        if($this->validatorCollection->isInvalid())
-        {
-            return $this->validatorCollection->getErrorUniqid();
-        }
-
-        $this->flush();
-
-        $this->messageDispatch
-            ->addClearCacheOther('products-product')
-            ->addClearCacheOther('products-promotion');
-
-        return $this->main;
-    }
-}
+interface ProductPromotionInvariableInterface { }

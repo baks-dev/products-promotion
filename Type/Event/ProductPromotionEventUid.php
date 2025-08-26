@@ -30,5 +30,5 @@ final class ProductPromotionEventUid extends Uid
 {
     public const string TYPE = 'product_promotion_event';
 
-    public const string TEST = '1eef4ff5-8d49-7356-85ed-6aa7b57c7827';
+    public const string TEST = '5ec5eba1-abaa-71db-9852-8995b21b458e';
 }
