@@ -22,16 +22,18 @@
  *
  */
 
-declare(strict_types=1);
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-namespace BaksDev\Products\Promotion;
+return function(RoutingConfigurator $routes) {
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+    $MODULE = substr(__DIR__, 0, strpos(__DIR__, "Resources"));
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
-{
-    public const string NAMESPACE = __NAMESPACE__.'\\';
-
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
-}
+    $routes->import(
+        $MODULE.'Controller',
+        'attribute',
+        false,
+        $MODULE.implode(DIRECTORY_SEPARATOR, ['Controller', '**', '*Test.php'])
+    )
+        ->prefix(\BaksDev\Core\Type\Locale\Locale::routes())
+        ->namePrefix('products-promotion:');
+};

@@ -1,4 +1,3 @@
-<?php
 /*
  *  Copyright 2025.  Baks.dev <admin@baks.dev>
  *
@@ -22,16 +21,23 @@
  *
  */
 
-declare(strict_types=1);
-
-namespace BaksDev\Products\Promotion;
-
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+executeFunc(function ozonProductsFunction()
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    if(typeof formDebounce !== 'function')
+    {
+        return false;
+    }
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
-}
+    const form = document.forms.products_promotion_filter_form;
+
+    console.log(form)
+
+    if(typeof form === 'undefined')
+    {
+        return false;
+    }
+
+    form.addEventListener('change', formDebounce(() => { form.submit(); }, 300));
+
+    return true;
+})

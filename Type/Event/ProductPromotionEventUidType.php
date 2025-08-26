@@ -22,16 +22,19 @@
  *
  */
 
-declare(strict_types=1);
+namespace BaksDev\Products\Promotion\Type\Event;
 
-namespace BaksDev\Products\Promotion;
+use BaksDev\Core\Type\UidType\UidType;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
-
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+final class ProductPromotionEventUidType extends UidType
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    public function getClassType(): string
+    {
+        return ProductPromotionEventUid::class;
+    }
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+    public function getName(): string
+    {
+        return ProductPromotionEventUid::TYPE;
+    }
 }

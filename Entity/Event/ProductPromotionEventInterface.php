@@ -24,14 +24,11 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion;
+namespace BaksDev\Products\Promotion\Entity\Event;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use BaksDev\Products\Promotion\Type\Event\ProductPromotionEventUid;
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+interface ProductPromotionEventInterface
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
-
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+    public function getEvent(): ?ProductPromotionEventUid;
 }

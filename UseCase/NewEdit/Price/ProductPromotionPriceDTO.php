@@ -24,14 +24,24 @@
 
 declare(strict_types=1);
 
-namespace BaksDev\Products\Promotion;
+namespace BaksDev\Products\Promotion\UseCase\NewEdit\Price;
 
-use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
+use BaksDev\Products\Promotion\Entity\Event\Price\ProductPromotionPriceInterface;
 
-/** Индекс сортировки @see BaksDevProductsProductBundle */
-class BaksDevProductsPromotionBundle extends AbstractBundle
+/** @see ProductPromotionPrice */
+final class ProductPromotionPriceDTO implements ProductPromotionPriceInterface
 {
-    public const string NAMESPACE = __NAMESPACE__.'\\';
+    /** Значение кастомной скидки (надбавки) */
+    private ?string $value = null;
 
-    public const string PATH = __DIR__.DIRECTORY_SEPARATOR;
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): self
+    {
+        $this->value = $value;
+        return $this;
+    }
 }
