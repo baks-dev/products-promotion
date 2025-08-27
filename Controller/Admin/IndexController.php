@@ -35,6 +35,7 @@ use BaksDev\Products\Product\Forms\ProductFilter\Admin\ProductFilterForm;
 use BaksDev\Products\Promotion\Form\ProductsPromotionFilter\ProductsPromotionFilterDTO;
 use BaksDev\Products\Promotion\Form\ProductsPromotionFilter\ProductsPromotionFilterForm;
 use BaksDev\Products\Promotion\Repository\AllProductsWithPromotionSettings\AllProductsWithPromotionSettingsInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -49,8 +50,12 @@ final class IndexController extends AbstractController
         Request $request,
         AllProductsWithPromotionSettingsInterface $allProductsWithPromotionSettings,
         int $page = 0,
+
+        #[Autowire(env: 'PROJECT_PROFILE')] ?string $projectProfile = null,
     ): Response
     {
+        $isProjectProfile = $this->getProfileUid()->equals($projectProfile);
+
         // Поиск
         $searchForm = $this
             ->createForm(
@@ -90,6 +95,7 @@ final class IndexController extends AbstractController
                 'promotionFilter' => $productsProductsFilterForm->createView(),
                 'search' => $searchForm->createView(),
                 'query' => $products,
+                'isProjectProfile' => $isProjectProfile,
             ],
         );
     }
