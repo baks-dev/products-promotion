@@ -75,6 +75,7 @@ class ProductPromotionEvent extends EntityEvent
     public function __construct()
     {
         $this->id = new ProductPromotionEventUid();
+        $this->modify = new ProductPromotionModify($this);
     }
 
     public function __clone()
