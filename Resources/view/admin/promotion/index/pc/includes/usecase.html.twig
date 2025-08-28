@@ -38,7 +38,7 @@
     <ul class="leader list-group list-group-flush ">
 
         {# Изменить параметры #}
-        {% if  (is_granted('ROLE_PRODUCT_PROMOTION_NEW_EDIT') or is_granted('ROLE_ADMIN')) and isProjectProfile %}
+        {% if  (is_granted('ROLE_PRODUCT_PROMOTION_NEW_EDIT') or is_granted('ROLE_ADMIN')) %}
 
             <li class="list-group-item d-flex justify-content-between bg-transparent border-0 text-truncate rounded-5">
                 <a href="{{ path('products-promotion:admin.promotion.edit', { invariable: item.getInvariable() }) }}"
