@@ -35,7 +35,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 
-#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: OrderModify::class)]
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: ProductPromotionModify::class)]
 final class ProductPromotionModifyListener
 {
     public function __construct(
