@@ -34,12 +34,6 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group product-promotion
- * @group product-promotion-controllers
- *
- * @depends BaksDev\Products\Promotion\UseCase\NewEdit\Tests\EditProductPromotionHandleTest::class
- */
 #[Group('product-promotion')]
 #[When(env: 'test')]
 final class NewEditControllerTest extends WebTestCase

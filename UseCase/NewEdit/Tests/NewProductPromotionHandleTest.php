@@ -37,14 +37,12 @@ use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionHandler;
 use BaksDev\Reference\Measurement\Type\Measurements\Collection\MeasurementCollection;
 use BaksDev\Users\Profile\UserProfile\Type\Id\UserProfileUid;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group product-promotion
- */
 #[Group('product-promotion')]
 #[When(env: 'test')]
 final class NewProductPromotionHandleTest extends KernelTestCase
@@ -102,8 +100,8 @@ final class NewProductPromotionHandleTest extends KernelTestCase
 
         /** Period */
         $ProductPromotionPeriodDTO = new ProductPromotionPeriodDTO();
-        $ProductPromotionPeriodDTO->setDateStart(new \DateTimeImmutable('now'));
-        $ProductPromotionPeriodDTO->setDateEnd(new \DateTimeImmutable('+1 day'));
+        $ProductPromotionPeriodDTO->setDateStart(new DateTimeImmutable('now'));
+        $ProductPromotionPeriodDTO->setDateEnd(new DateTimeImmutable('+1 day'));
 
         $NewProductPromotionDTO->setPeriod($ProductPromotionPeriodDTO);
 

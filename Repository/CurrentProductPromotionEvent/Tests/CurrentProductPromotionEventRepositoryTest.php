@@ -31,9 +31,6 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group products-promotion
- */
 #[Group('products-promotion')]
 #[When(env: 'test')]
 class CurrentProductPromotionEventRepositoryTest extends KernelTestCase

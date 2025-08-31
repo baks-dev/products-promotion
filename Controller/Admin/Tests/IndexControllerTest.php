@@ -33,12 +33,6 @@ use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group product-promotion
- * @group product-promotion-controllers
- *
- * @depends BaksDev\Products\Promotion\UseCase\NewEdit\Tests\NewProductPromotionHandleTest::class
- */
 #[Group('product-promotion')]
 #[When(env: 'test')]
 final class IndexControllerTest extends WebTestCase

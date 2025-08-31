@@ -33,17 +33,13 @@ use BaksDev\Products\Promotion\Type\ProductPromotionUid;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionDTO;
 use BaksDev\Products\Promotion\UseCase\NewEdit\ProductPromotionHandler;
 use BaksDev\Reference\Measurement\Type\Measurements\Collection\MeasurementCollection;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Attribute\When;
 
-/**
- * @group product-promotion
- *
- * @depends BaksDev\Products\Promotion\Controller\Admin\Tests\IndexControllerTest::class
- */
 #[Group('product-promotion')]
 #[When(env: 'test')]
 final class EditProductPromotionHandleTest extends KernelTestCase
@@ -86,8 +82,8 @@ final class EditProductPromotionHandleTest extends KernelTestCase
 
         /** Period */
         $ProductPromotionPeriodDTO = $EditProductPromotionDTO->getPeriod();
-        $ProductPromotionPeriodDTO->setDateStart(new \DateTimeImmutable('+2 day'));
-        $ProductPromotionPeriodDTO->setDateEnd(new \DateTimeImmutable('+3 day'));
+        $ProductPromotionPeriodDTO->setDateStart(new DateTimeImmutable('+2 day'));
+        $ProductPromotionPeriodDTO->setDateEnd(new DateTimeImmutable('+3 day'));
 
         /** @var ProductPromotionHandler $ProductPromotionHandler */
         $ProductPromotionHandler = self::getContainer()->get(ProductPromotionHandler::class);
