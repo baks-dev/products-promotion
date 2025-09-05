@@ -51,11 +51,25 @@
                         </div>
 
                         <div class="small lh-1">
-                            {#                            Созданные индивидуальные настройки продукта #}
-                            {#                            <span class="text-danger text-uppercase fw-bold">не могут быть использованы</span>. #}
-                            Для вашего профиля пользователя права на приминение индивидуальных настроек продукта
-                            <span class="text-danger text-uppercase fw-bold">ограничены</span>.
+                            Для вашего профиля пользователя
+
+                            <ul class="m-0">
+                                <li>
+                                    <span class="text-danger text-uppercase fw-bold">ограничены</span>
+                                    права на применение индивидуальных настроек продукта.
+                                </li>
+
+                                {% if false == is_granted('ROLE_PRODUCT_PROMOTION_PRICE_DECREMENT') or true == is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <span class="text-danger text-uppercase fw-bold">отсутствуют</span>
+                                        права на снижение стоимости продукта.
+                                    </li>
+                                {% endif %}
+
+                            </ul>
+
                         </div>
+
                     </div>
                 </div>
 

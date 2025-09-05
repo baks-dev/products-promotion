@@ -14,3 +14,7 @@ ROLE_PRODUCT_PROMOTION_INDEX:
 ROLE_PRODUCT_PROMOTION_NEW_EDIT:
   name: 'Создать или редактировать'
   desc: ''
+
+ROLE_PRODUCT_PROMOTION_PRICE_DECREMENT:
+  name: 'Уменьшить стоимость продукта'
+  desc: ''

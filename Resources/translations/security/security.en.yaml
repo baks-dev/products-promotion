@@ -10,3 +10,7 @@ ROLE_PRODUCT_PROMOTION_INDEX:
 ROLE_PRODUCT_PROMOTION_NEW_EDIT:
   name: 'New or Edit'
   desc: ''
+
+ROLE_PRODUCT_PROMOTION_PRICE_DECREMENT:
+  name: 'Decrement product price'
+  desc: ''
