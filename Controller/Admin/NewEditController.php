@@ -84,6 +84,23 @@ class NewEditController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid() && $form->has('product_promotion'))
         {
+
+            if(
+                false === $this->isGranted('ROLE_ADMIN') &&
+                false === $this->isGranted('ROLE_PRODUCT_PROMOTION_PRICE_DECREMENT') &&
+                str_starts_with($NewProductPromotionDTO->getPrice()->getValue(), '-')
+            )
+            {
+                $this->addFlash(
+                    'page.edit',
+                    'notice.edit',
+                    'products-promotion.admin.promotion',
+                );
+
+                return $this->redirectToRoute('products-promotion:admin.promotion.index');
+            }
+
+
             $this->refreshTokenForm($form);
 
             $handle = $productPromotionHandler->handle($NewProductPromotionDTO);
