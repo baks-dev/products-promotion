@@ -54,7 +54,7 @@ final class IndexController extends AbstractController
         #[Autowire(env: 'PROJECT_PROFILE')] ?string $projectProfile = null,
     ): Response
     {
-        $isProjectProfile = $this->getProfileUid()->equals($projectProfile);
+        $isProjectProfile = $this->getProfileUid()?->equals($projectProfile);
 
         // Поиск
         $searchForm = $this
