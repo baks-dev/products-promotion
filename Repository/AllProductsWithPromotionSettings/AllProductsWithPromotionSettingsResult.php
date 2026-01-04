@@ -45,7 +45,7 @@ final readonly class AllProductsWithPromotionSettingsResult
     public function __construct(
         private string $id,
         private string $event,
-        private string $invariable,
+        private ?string $invariable,
         private bool $category_active,
         private string $category_name,
         private string $product_name,
@@ -87,9 +87,9 @@ final readonly class AllProductsWithPromotionSettingsResult
         return new ProductEventUid($this->event);
     }
 
-    public function getInvariable(): ProductInvariableUid
+    public function getInvariable(): ProductInvariableUid|false
     {
-        return new ProductInvariableUid($this->invariable);
+        return $this->invariable ? new ProductInvariableUid($this->invariable) : false;
     }
 
     public function isCategoryActive(): bool
