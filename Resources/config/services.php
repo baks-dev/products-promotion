@@ -31,7 +31,8 @@ return static function(ContainerConfigurator $configurator) {
     $services = $configurator->services()
         ->defaults()
         ->autowire()
-        ->autoconfigure();
+        ->autoconfigure()
+        ->public();
 
     $NAMESPACE = BaksDevProductsPromotionBundle::NAMESPACE;
     $PATH = BaksDevProductsPromotionBundle::PATH;
