@@ -40,6 +40,12 @@ final class Role implements RoleInterface, MenuAdminInterface
 
     public const string KEY = 'ZTpXtGAUI';
 
+    /** Метод возвращает позицию, в которую располагается ссылка в секции меню */
+    public static function getSortMenu(): int
+    {
+        return 105;
+    }
+
     public function getRole(): string
     {
         return self::ROLE;
@@ -63,12 +69,6 @@ final class Role implements RoleInterface, MenuAdminInterface
     public function getGroupMenu(): MenuAdminSectionGroupCollectionInterface|bool
     {
         return new MenuGroupProducts();
-    }
-
-    /** Метод возвращает позицию, в которую располагается ссылка в секции меню */
-    public static function getSortMenu(): int
-    {
-        return 105;
     }
 
     /** Метод возвращает флаг "Показать в выпадающем меню"  */

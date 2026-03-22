@@ -110,11 +110,6 @@ class ProductPromotionEvent extends EntityEvent
         throw new InvalidArgumentException(sprintf('Class %s interface error', $dto::class));
     }
 
-    public function getId(): ProductPromotionEventUid
-    {
-        return $this->id;
-    }
-
     public function getMain(): ?ProductPromotionUid
     {
         return $this->main;
@@ -123,5 +118,10 @@ class ProductPromotionEvent extends EntityEvent
     public function setMain(ProductPromotion|ProductPromotionUid $main): void
     {
         $this->main = $main instanceof ProductPromotion ? $main->getId() : $main;
+    }
+
+    public function getId(): ProductPromotionEventUid
+    {
+        return $this->id;
     }
 }

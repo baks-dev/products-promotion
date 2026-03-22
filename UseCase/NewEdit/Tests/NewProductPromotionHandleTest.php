@@ -51,6 +51,7 @@ final class NewProductPromotionHandleTest extends KernelTestCase
     {
         /**
          * Инициализируем инстансы
+         *
          * @var MeasurementCollection $MeasurementCollection
          */
         $OzonSupplyStatus = self::getContainer()->get(MeasurementCollection::class);

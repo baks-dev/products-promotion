@@ -66,11 +66,6 @@ class ProductPromotion
         return (string) $this->id;
     }
 
-    public function getId(): ProductPromotionUid
-    {
-        return $this->id;
-    }
-
     public function getEvent(): ProductPromotionEventUid
     {
         return $this->event;
@@ -79,5 +74,10 @@ class ProductPromotion
     public function setEvent(ProductPromotionEventUid|ProductPromotionEvent $event): void
     {
         $this->event = $event instanceof ProductPromotionEvent ? $event->getId() : $event;
+    }
+
+    public function getId(): ProductPromotionUid
+    {
+        return $this->id;
     }
 }

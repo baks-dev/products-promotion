@@ -129,7 +129,7 @@ final class AllProductsWithPromotionSettingsRepository implements AllProductsWit
                 'product',
                 ProductEvent::class,
                 'product_event',
-                'product_event.id = product.event'
+                'product_event.id = product.event',
             );
 
 

@@ -31,6 +31,6 @@ return static function(TwigConfig $twig) {
 
     $twig->path(
         BaksDevProductsPromotionBundle::PATH.implode(DIRECTORY_SEPARATOR, ['Resources', 'view', '']),
-        'products-promotion'
+        'products-promotion',
     );
 };

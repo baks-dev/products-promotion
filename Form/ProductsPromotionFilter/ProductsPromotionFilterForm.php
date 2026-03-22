@@ -87,7 +87,7 @@ final class ProductsPromotionFilterForm extends AbstractType
 
                     $data->setExists($sessionArray['exists'] ?? null);
                 }
-            }
+            },
         );
 
         $builder->addEventListener(
@@ -118,7 +118,7 @@ final class ProductsPromotionFilterForm extends AbstractType
                     $this->request->getSession()->remove($this->sessionKey);
 
                 }
-            }
+            },
         );
     }
 }

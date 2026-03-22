@@ -67,7 +67,7 @@ final class ProductPromotionForm extends AbstractType
                 {
                     $NewProductPromotionDTO->getInvariable()->setProfile($this->UserProfileTokenStorage->getProfile());
                 }
-            }
+            },
         );
 
         /** Сохранить */
@@ -77,8 +77,8 @@ final class ProductPromotionForm extends AbstractType
             [
                 'label' => 'Save',
                 'label_html' => true,
-                'attr' => ['class' => 'btn-primary']
-            ]
+                'attr' => ['class' => 'btn-primary'],
+            ],
         );
     }
 

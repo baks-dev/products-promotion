@@ -98,12 +98,12 @@ final class CurrentProductPromotionEventRepository implements CurrentProductProm
                     promotion_invariable.product = :invariable
                     AND
                     promotion_invariable.profile = :profile
-                    '
+                    ',
             )
             ->setParameter(
                 key: 'invariable',
                 value: $this->invariable,
-                type: ProductInvariableUid::TYPE
+                type: ProductInvariableUid::TYPE,
             )
             ->setParameter(
                 key: 'profile',
@@ -117,7 +117,7 @@ final class CurrentProductPromotionEventRepository implements CurrentProductProm
                 ProductPromotionEvent::class,
                 'event',
                 'WITH',
-                'event.id = promotion_invariable.event'
+                'event.id = promotion_invariable.event',
             );
 
         return $orm->getOneOrNullResult() ?: false;
