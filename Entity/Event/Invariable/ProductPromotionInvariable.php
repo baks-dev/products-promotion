@@ -38,6 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /** @see ProductPromotionEvent */
 #[ORM\Entity]
 #[ORM\Table(name: 'product_promotion_invariable')]
+#[ORM\Index(columns: ['product', 'profile'])]
 class ProductPromotionInvariable extends EntityReadonly
 {
     /**
